@@ -69,13 +69,13 @@
                     }
                     dialog
                         .find('input[name="cancel"]')
-                        .val(plugin.settings.pasteOk)
+                        .val(plugin.settings.pasteCancel)
                         .click(function(){
                             dialog.dialog('close');
                         });
                     dialog
                         .find('input[name="ok"]')
-                        .val(plugin.settings.pasteCancel)
+                        .val(plugin.settings.pasteOk)
                         .click(function(){
                             plugin.parseTable(doc.body.innerHTML, dialog);
                         });
