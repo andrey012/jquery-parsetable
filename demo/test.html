@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery Boilerplate</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+		<script src="../src/jquery.parsetable.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/ui-lightness/jquery-ui.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.17.1.css">
+    </head>
+	<body>
+        <div class="container">
+            <h1>
+                QUnit test page
+            </h1>
+            <h3>
+                <center>
+                    <span class="label label-warning">
+                        <a id="test" href="#">test link</a>
+                    </span>
+                </center>
+            </h3>
+            <div id="qunit"></div>
+            <div id="qunit-fixture"></div>
+            <script src="//code.jquery.com/qunit/qunit-1.17.1.js"></script>
+        </div>
+        <script>
+            var cancelFired;
+            var successFired;
+            var successData;
+            var useSample = function(body, name){
+                $.ajax({
+                    type: 'GET',
+                    url: 'data/' + name + '.html',
+                    async: false,
+                    cache: false,
+                    success: function(data){ body.innerHTML = data;},
+                });
+                var result; 
+                $.ajax({
+                    type: 'GET',
+                    url: 'data/' + name + '.json',
+                    async: false,
+                    cache: false,
+                    success: function(data){ 
+                        result = data;
+                    },
+                    dataType: 'json',
+                });
+                return result;
+            }
+			jQuery(document).ready(function() {
+				jQuery("#test").parseTable({
+                    success: function(data){
+                        successFired = true;
+                        successData = data;
+                    },
+                    cancel: function(data){
+                        cancelFired = true;
+                    },
+                });
+			});
+            QUnit.module( "parseTable", {
+                setup: function( assert ){
+                    cancelFired = successFired = successData = false;
+                    $('.ui-dialog').remove();
+                }
+            });
+
+            QUnit.test( "checkCancelOnFirstRound", function( assert ) {
+                // show dialog
+                $('#test').click();
+                // find dialog
+                var dialog = $('.ui-dialog:visible').last();
+                // click cancel
+                dialog.find('input[name="cancel"]').click();
+                // make sure, that cancel callback is fired
+                assert.equal( cancelFired, true);
+                // make sure, that dialog has gone
+                assert.equal( 0, $('.ui-dialog:visible').length);
+            });
+
+            QUnit.test( "checkCancelAfterFailedParse", function ( assert ){
+                // show dialog
+                $('#test').click();
+                // find dialog
+                var dialog = $('.ui-dialog:visible').last();
+                // click ok 
+                dialog.find('input[name="ok"]').click();
+                // make sure, that this or other dialog is still on
+                assert.equal( $('.ui-dialog:visible').length, 1);
+                // get new dialog
+                dialog = $('.ui-dialog:visible').last();
+                // make sure, that error message is not empty
+                assert.ok(dialog.find('span').text().length > 0, 'There is some error message');
+                // make sure, that cancel was not fired yet
+                assert.equal(cancelFired, false);
+                // cancel
+                dialog.find('input[name="cancel"]').click();
+                // make sure, that cancel callback is fired
+                assert.equal( cancelFired, true);
+                // make sure, that dialog has gone
+                assert.equal( 0, $('.ui-dialog:visible').length);
+            });
+            
+            var recognitionTest = function( assert, name ){
+                // show dialog
+                $('#test').click();
+                // find dialog
+                var dialog = $('.ui-dialog:visible').last();
+                // find iframe
+                var iframe = dialog.find('iframe')[0];
+                var doc;
+                if (iframe.contentDocument) doc = iframe.contentDocument;
+                else if (iframe.contentWindow) doc = iframe.contentWindow.document;
+                else if (iframe.document) doc = iframe.document;
+                var body = doc.body;
+                var ethalon = useSample(body, name);
+                dialog.find('input[name="ok"]').click();
+                // find another dialog -- with parsed results
+                dialog = $('.ui-dialog:visible').last();
+                // make sure, that no event was fired yet
+                assert.equal(cancelFired, false);
+                assert.equal(successFired, false);
+                // click ok
+                dialog.find('input[name="ok"]').click();
+                // make sure, that success is fired
+                assert.equal(cancelFired, false);
+                assert.equal(successFired, true);
+                // make sure, that result matches
+                console.log(successData);
+                console.log(ethalon);
+                assert.deepEqual(successData, ethalon);
+
+            }
+            
+            var registeredSamples = [
+                'simple.libreoffice.writer',
+                'simple.libreoffice.calc',
+            ];
+
+            for (sampleKey in registeredSamples){
+                QUnit.test( "checkRecognition" , function ( assert ) {
+                    return recognitionTest(assert, registeredSamples[sampleKey]);
+                });
+            }
+
+        </script>
+    </body>
+</html>
