@@ -1,41 +1,30 @@
 {
-  "name": "jquery-boilerplate",
-  "version": "3.5.0",
-  "description": "A jump-start for jQuery plugins development.",
+  "name": "jquery-parsetable",
+  "version": "0.0.1",
+  "description": "A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on web page.",
   "keywords": [
     "jquery-plugin",
     "jquery",
-    "boilerplate",
-    "plugins"
+    "jquery-ui"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jquery-boilerplate/jquery-boilerplate.git"
+    "url": "https://github.com/andrey012/jquery-parsetable.git"
   },
   "bugs": {
-    "url": "https://github.com/jquery-boilerplate/jquery-boilerplate/issues"
+    "url": "https://github.com/andrey012/jquery-parsetable.git"
   },
   "author": {
-    "name": "Zeno Rocha",
-    "email": "zno.rocha@gmail.com",
-    "url": "https://github.com/zenorocha"
+    "name": "Andrey Grinenko",
+    "email": "andrey012@gmail.com",
+    "url": "https://github.com/andrey012"
   },
-  "homepage": "http://jqueryboilerplate.com",
+  "homepage": "https://github.com/andrey012/jquery-parsetable.git",
   "contributors": [
     {
-      "name": "Zeno Rocha",
-      "email": "zno.rocha@gmail.com",
-      "url": "https://github.com/zenorocha"
-    },
-    {
-      "name": "Addy Osmani",
-      "email": "addyosmani@gmail.com",
-      "url": "https://github.com/addyosmani"
-    },
-    {
-      "name": "Helder Santana",
-      "email": "heldr@me.com",
-      "url": "https://github.com/heldr"
+        "name": "Andrey Grinenko",
+        "email": "andrey012@gmail.com",
+        "url": "https://github.com/andrey012"
     }
   ],
   "license": "MIT",

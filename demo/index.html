@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>jQuery Boilerplate</title>
+		<title>jQuery ParseTable</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 		<script src="../src/jquery.parsetable.js"></script>
@@ -9,8 +9,25 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     </head>
 	<body>
-        <a id="test" href="#">try</a> <br/>
-        <a href="test.html">QUnit test page</a>
+        <div class="container">
+            <h1>
+                Demo page
+            </h1>
+            <h3>
+                <center>
+                    <span class="label label-warning">
+                        <a id="test" href="#">test link</a>
+                    </span>
+                </center>
+            </h3>
+            <h3>
+                <center>
+                    <span class="label label-warning">
+                        <a href="test.html">QUnit test page</a>
+                    </span>
+                </center>
+            </h3>
+        </div>
 		<script>
 			jQuery(document).ready(function() {
 				jQuery("#test").parseTable({

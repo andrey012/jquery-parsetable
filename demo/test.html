@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>jQuery Boilerplate</title>
+		<title>jQuery ParseTable</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
 		<script src="../src/jquery.parsetable.js"></script>
@@ -67,7 +67,10 @@
                     $('.ui-dialog').remove();
                 }
             });
-
+            QUnit.test( "canBeChained", function ( assert ) {
+                var result = $('#test').parseTable();
+                assert.equal(result.text(), "test link");
+            });
             QUnit.test( "checkCancelOnFirstRound", function( assert ) {
                 // show dialog
                 $('#test').click();
@@ -103,7 +106,7 @@
                 // make sure, that dialog has gone
                 assert.equal( 0, $('.ui-dialog:visible').length);
             });
-            
+
             var recognitionTest = function( assert, name ){
                 // show dialog
                 $('#test').click();
@@ -124,20 +127,22 @@
                 assert.equal(cancelFired, false);
                 assert.equal(successFired, false);
                 // click ok
-                dialog.find('input[name="ok"]').click();
+                dialog.find('input[name="ok"]').last().click();
                 // make sure, that success is fired
                 assert.equal(cancelFired, false);
                 assert.equal(successFired, true);
                 // make sure, that result matches
-                console.log(successData);
-                console.log(ethalon);
                 assert.deepEqual(successData, ethalon);
 
             }
-            
+
             var registeredSamples = [
                 'simple.libreoffice.writer',
                 'simple.libreoffice.calc',
+                'simple.excel.chrome',
+                'simple.word.chrome',
+                'multiline.word.chrome',
+                'multiline.excel.chrome',
             ];
 
             for (sampleKey in registeredSamples){
