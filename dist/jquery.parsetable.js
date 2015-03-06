@@ -17,8 +17,10 @@
             pasteError: 'This contents does not look like a table',
             pasteOk: 'Ok',
             pasteCancel: 'Cancel',
-            confirmHeader: 'Confirm, that information is good',
-            confirmLabel: 'Following information was found:',
+            confirmHeaderSingle: 'Confirm, that information is good',
+            confirmHeaderMultiple: 'Choose one of found tables',
+            confirmLabelSingle: 'Following information was found, check it and confirm:',
+            confirmLabelMultiple: 'Following information was found, choose correct one, check it and confirm:',
             confirmOk: 'Use this information',
             confirmCancel: 'Cancel',
             success: function(){
@@ -47,8 +49,9 @@
                 },
                 showPasteDialog: function (content, message) {
                     var plugin = this;
-                    var dialog = $('<div><span style="color: red;"></span><iframe style="width: 100%"></iframe><div style="text-align: center;"><input type="button" name="ok" value="Ok"/><input type="button" name="cancel" value="Cancel"/></div></div>');
+                    var dialog = $('<div><div></div><span style="color: red;"></span><iframe style="width: 100%"></iframe><div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
                     dialog.dialog({
+                        title: plugin.settings.pasteHeader,
                         modal: true,
                         minWidth: Math.max(600, Math.round($(window).width()*0.7)),
                         close: plugin.settings.cancel,
@@ -63,17 +66,27 @@
                     } else if (iframe.document) {
                         doc = iframe.document;
                     }
-                    doc.write ('<body style="margin: 0; padding: 0;" CONTENTEDITABLE>Paste table here (Ctrl-V)</body>');
+                    doc.write ('<body style="margin: 0; padding: 0;" CONTENTEDITABLE>');
                     if (null != content){
                         doc.body.innerHTML = content;
+                    } else {
+                        doc.body.innerHTML = plugin.settings.pasteLabel;
                     }
                     if (null != message){
                         dialog.find('span').text(message);
                     }
-                    dialog.find('input[name="cancel"]').click(function(){dialog.dialog('close');});
-                    dialog.find('input[name="ok"]').click(function(){
-                        plugin.parseTable(doc.body.innerHTML, dialog);
-                    });
+                    dialog
+                        .find('input[name="cancel"]')
+                        .val(plugin.settings.pasteCancel)
+                        .click(function(){
+                            dialog.dialog('close');
+                        });
+                    dialog
+                        .find('input[name="ok"]')
+                        .val(plugin.settings.pasteOk)
+                        .click(function(){
+                            plugin.parseTable(doc.body.innerHTML, dialog);
+                        });
                     var previousContents = doc.body.innerHTML;
                     doc.body.focus();
                     doc.execCommand('selectAll', false, null);
@@ -101,36 +114,56 @@
                     var plugin = this;
                     dialog.dialog('option', 'close', null);
                     dialog.dialog('close');
-                    var parsedDialog = $('<div></div>');
+                    var parsedDialog = $('<div><span></span></div>');
                     var result = plugin.copyClipboardToArray(contents);
                     if (false === result){
-                        this.showPasteDialog(contents, 'This contents does not look like a table');
+                        this.showPasteDialog(contents, plugin.settings.pasteError);
                     } else {
                         var tableIndex;
                         var rowIndex;
                         var colIndex;
+                        var lineIndex;
+                        var lines;
+                        var count = 0;
                         for (tableIndex in result){
                             if (result[tableIndex].length === 0) {
                                 continue;
                             }
+                            count ++;
                             var div = $('<div/>').appendTo(parsedDialog);
                             var table = $('<table class="table table-bordered"/>').appendTo(div);
-                            $('<div style="text-align: center;"><input type="button" name="ok" value="Ok"/><input type="button" name="cancel" value="Cancel"/></div>').appendTo(div);
+                            $('<div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div>').appendTo(div);
+                            div.find('input[name="ok"]').val(plugin.settings.confirmOk);
+                            div.find('input[name="cancel"]').val(plugin.settings.confirmCancel);
                             div.find('input[name="ok"]').attr('data-tableindex', tableIndex);
                             var tbody = $('<tbody/>').appendTo(table);
                             for (rowIndex in result[tableIndex]){
                                 var tr = $('<tr/>').appendTo(tbody);
                                 for (colIndex in result[tableIndex][rowIndex]){
                                     var td = $('<td/>').appendTo(tr);
-                                    td.text(result[tableIndex][rowIndex][colIndex]);
+                                    lines = result[tableIndex][rowIndex][colIndex].split('\n');
+                                    for (lineIndex in lines){
+                                        $('<p/>').appendTo(td).text(lines[lineIndex]);
+                                    }
                                 }
                             }
                         }
+                        parsedDialog.find('span').text((count <= 1) ?
+                            plugin.settings.confirmLabelSingle :
+                            plugin.settings.confirmLabelMultiple
+                        );
                         parsedDialog.dialog({
+                            title: (count <= 1) ?
+                                    plugin.settings.confirmHeaderSingle :
+                                    plugin.settings.confirmHeaderMultiple,
                             modal: true,
                             minWidth: Math.max(600, Math.round($(window).width()*0.7)),
-                            close: function(){ plugin.showPasteDialog(contents); },
-                            open: function(){plugin.fixOverlayZindex(parsedDialog);},
+                            close: function(){ 
+                                plugin.showPasteDialog(contents); 
+                            },
+                            open: function(){
+                                plugin.fixOverlayZindex(parsedDialog);
+                            },
                         });
                         parsedDialog.find('input[name="ok"]').click(function(){
                             parsedDialog.dialog('option', 'close', null);
@@ -210,7 +243,7 @@
                                             }
                                         }
                                     }
-                                    if (nonEmpty) {
+                                    if (nonEmpty !== false) {
                                         while (resultRow.length > (nonEmpty + 1)) {
                                             resultRow.pop();
                                         }

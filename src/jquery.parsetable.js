@@ -140,14 +140,14 @@
                                 }
                             }
                         }
-                        parsedDialog.find('span').text((count <= 1) 
-                            ? plugin.settings.confirmLabelSingle
-                            : plugin.settings.confirmLabelMultiple
+                        parsedDialog.find('span').text((count <= 1) ?
+                            plugin.settings.confirmLabelSingle :
+                            plugin.settings.confirmLabelMultiple
                         );
                         parsedDialog.dialog({
-                            title: (count <= 1) 
-                                    ? plugin.settings.confirmHeaderSingle 
-                                    : plugin.settings.confirmHeaderMultiple,
+                            title: (count <= 1) ?
+                                    plugin.settings.confirmHeaderSingle :
+                                    plugin.settings.confirmHeaderMultiple,
                             modal: true,
                             minWidth: Math.max(600, Math.round($(window).width()*0.7)),
                             close: function(){ 
