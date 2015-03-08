@@ -50,6 +50,9 @@
                 });
                 return result;
             }
+            var getDialog = function(){
+                return $('.ui-dialog:visible:last');
+            }
             console.log('JS loaded');
 			jQuery(document).ready(function() {
                 console.log('on ready');
@@ -78,7 +81,7 @@
                     // show dialog
                     $('#test').click();
                     // find dialog
-                    var dialog = $('.ui-dialog:visible').last();
+                    var dialog = getDialog();
                     // click cancel
                     dialog.find('input[name="cancel"]').click();
                     // make sure, that cancel callback is fired
@@ -91,13 +94,13 @@
                     // show dialog
                     $('#test').click();
                     // find dialog
-                    var dialog = $('.ui-dialog:visible').last();
+                    var dialog = getDialog();
                     // click ok 
                     dialog.find('input[name="ok"]').click();
                     // make sure, that this or other dialog is still on
                     assert.equal( $('.ui-dialog:visible').length, 1);
                     // get new dialog
-                    dialog = $('.ui-dialog:visible').last();
+                    var dialog = getDialog();
                     // make sure, that error message is not empty
                     assert.ok(dialog.find('span').text().length > 0, 'There is some error message');
                     // make sure, that cancel was not fired yet
@@ -114,7 +117,7 @@
                     // show dialog
                     $('#test').click();
                     // find dialog
-                    var dialog = $('.ui-dialog:visible').last();
+                    var dialog = getDialog();
                     // find iframe
                     var iframe = dialog.find('iframe')[0];
                     var doc;
@@ -125,12 +128,12 @@
                     var ethalon = useSample(body, name);
                     dialog.find('input[name="ok"]').click();
                     // find another dialog -- with parsed results
-                    dialog = $('.ui-dialog:visible').last();
+                    var dialog = getDialog();
                     // make sure, that no event was fired yet
                     assert.equal(cancelFired, false);
                     assert.equal(successFired, false);
                     // click ok
-                    dialog.find('input[name="ok"]').last().click();
+                    dialog.find('input[name="ok"]:last').click();
                     // make sure, that success is fired
                     assert.equal(cancelFired, false);
                     assert.equal(successFired, true);
