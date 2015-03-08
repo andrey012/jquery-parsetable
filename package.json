@@ -5,7 +5,9 @@
   "keywords": [
     "jquery-plugin",
     "jquery",
-    "jquery-ui"
+    "jquery-ui",
+    "ecosystem:jquery",
+    "table",
   ],
   "repository": {
     "type": "git",

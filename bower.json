@@ -1,18 +1,18 @@
 {
-	"name": "jquery-boilerplate",
-	"version": "3.5.0",
-	"homepage": "http://jqueryboilerplate.com",
+	"name": "jquery-pastetable",
+	"version": "0.0.1",
 	"authors": [
-		"Zeno Rocha <hi@zenorocha.com>"
+		"Andrey Grinenko <andrey012@gmail.com>"
 	],
-	"description": "A jump-start for jQuery plugins development.",
-	"main": "src/jquery.boilerplate.js",
+	"description": "A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on a web page.",
+	"main": "src/jquery.pastetable.js",
 	"keywords": [
 		"jquery",
 		"plugin",
-		"boilerplate",
+        "table",
 		"jquery-plugin",
-		"jquery-boilerplate"
+        "jquery-tablepaste",
+        "jquery-ui",
 	],
 	"license": "MIT"
 }
