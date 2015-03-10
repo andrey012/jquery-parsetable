@@ -1,5 +1,34 @@
 console.log('starting');
 var system = require('system');
+var fs = require('fs');
+var server = require('webserver').create();
+var port, service;
+port = 31234;
+var tries = 100; 
+var success = false;
+
+while (tries --){
+    try {
+        service = server.listen(port, function (request, response) {
+            response.statusCode = 200;
+            response.headers = {
+                'Cache': 'no-cache',
+                'Content-Type': 'text/html'
+            };
+            var data = fs.read(request.url.substr(1).split('?')[0]);
+            response.write(data);
+            response.close();
+        });
+        success = true;
+        break;
+    } catch (e){}
+}
+if (service && success) {
+    console.log('Web server running on port ' + port);
+} else {
+    console.log('Error: Could not create web server listening on port ' + port);
+    phantom.exit(1);
+}
 
 
 /**
@@ -16,11 +45,10 @@ var system = require('system');
  */
 function waitFor(testFx, onReady, timeOutMillis) {
     console.trace()
-    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 300001, //< Default Max Timout is 3s
+    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3001, //< Default Max Timout is 3s
         start = new Date().getTime(),
         condition = false,
         interval = setInterval(function() {
-    console.trace()
             if ( (new Date().getTime() - start < maxtimeOutMillis) && !condition ) {
                 // If not time-out yet and condition not yet fulfilled
                 condition = (typeof(testFx) === "string" ? eval(testFx) : testFx()); //< defensive code
@@ -28,7 +56,6 @@ function waitFor(testFx, onReady, timeOutMillis) {
                 if(!condition) {
                     // If condition still not fulfilled (timeout but condition is 'false')
                     console.log("'waitFor()' timeout");
-                    page.render('timeout.png');
                     phantom.exit(1);
                 } else {
                     // Condition fulfilled (timeout and/or condition is 'true')
@@ -37,10 +64,9 @@ function waitFor(testFx, onReady, timeOutMillis) {
                     clearInterval(interval); //< Stop this interval
                 }
             }
-        }, 100); //< repeat check every 250ms
+        }, 100);
 };
 
-if(1){
 
 
 var page = require('webpage').create();
@@ -50,31 +76,33 @@ page.onConsoleMessage = function(msg) {
     console.log(msg);
 };
 
-page.open('demo/test.html', function(status){
+page.open('http://localhost:'+port+'/demo/test.html', function(status){
     if (status !== "success") {
         console.log("Unable to access network");
         phantom.exit(1);
     } else {
-        waitFor(function(){
-            return page.evaluate(function(){
-                var el = document.getElementById('qunit-testresult');
-                if (el && el.innerText.match('completed')) {
-                    return true;
-                }
-                return false;
-            });
-        }, function(){
-            var failedNum = page.evaluate(function(){
-                var el = document.getElementById('qunit-testresult');
-                console.log(el.innerText);
-                try {
-                    return el.getElementsByClassName('failed')[0].innerHTML;
-                } catch (e) { }
-                return 10000;
-            });
-            phantom.exit((parseInt(failedNum, 10) > 0) ? 1 : 0);
-        });
+        console.log('Opened page');
+        waitFor(
+            function(){
+                return page.evaluate(function(){
+                    var el = document.getElementById('qunit-testresult');
+                    if (el && el.innerText.match('completed')) {
+                        return true;
+                    }
+                    return false;
+                });
+            }, 
+            function(){
+                console.log(page.evaluate(function(){return document.getElementById('qunit-testresult').innerText;}));
+                var failedNum = page.evaluate(function(){
+                    var el = document.getElementById('qunit-testresult');
+                    try {
+                        return el.getElementsByClassName('failed')[0].innerHTML;
+                    } catch (e) { }
+                    return 10000;
+                });
+                phantom.exit((parseInt(failedNum, 10) > 0) ? 1 : 0);
+            }
+        );
     }
 });
-
-}
