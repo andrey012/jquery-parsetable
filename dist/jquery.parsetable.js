@@ -131,78 +131,79 @@
                         },
                         open: function(){
                             plugin.fixOverlayZindex(parsedDialog);
-
-                            var result = plugin.copyClipboardToArray(contents);
-                            result = plugin.settings.postProcess(result);
-                            if (false === result){
-                                parsedDialog.dialog('option', 'close', null);
-                                parsedDialog.dialog('close');
-                                plugin.showPasteDialog(contents, plugin.settings.pasteError);
-                            } else {
-                                var tableIndex;
-                                var rowIndex;
-                                var colIndex;
-                                var lineIndex;
-                                var lines;
-                                var cell;
-                                var count = 0;
-                                var i;
-                                for (tableIndex in result){
-                                    if (result[tableIndex].length === 0) {
-                                        continue;
-                                    }
-                                    count ++;
-                                    var div = $('<div/>').appendTo(parsedDialog);
-                                    var table = $('<table class="table table-bordered"/>').appendTo(div);
-                                    $('<div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div>').appendTo(div);
-                                    div.find('input[name="ok"]').val(plugin.settings.confirmOk);
-                                    div.find('input[name="cancel"]').val(plugin.settings.confirmCancel);
-                                    div.find('input[name="ok"]').attr('data-tableindex', tableIndex);
-                                    var tbody = $('<tbody/>').appendTo(table);
-                                    var maxCells = 0;
-                                    for (rowIndex in result[tableIndex]){
-                                        maxCells = Math.max(maxCells, result[tableIndex][rowIndex].length);
-                                    }
-                                    for (rowIndex in result[tableIndex]){
-                                        var tr = $('<tr/>').appendTo(tbody);
-                                        for (i = result[tableIndex][rowIndex].length; i < maxCells; i++){
-                                            result[tableIndex][rowIndex].push('');
-                                        }
-                                        for (colIndex in result[tableIndex][rowIndex]){
-                                            var td = $('<td/>').appendTo(tr);
-                                            cell = result[tableIndex][rowIndex][colIndex];
-                                            if ('undefined' === typeof cell) {
-                                                cell = '';
-                                            }
-                                            if ('string' !== typeof cell) {
-                                                cell = '' + cell;
-                                            }
-                                            result[tableIndex][rowIndex][colIndex] = cell;
-                                            lines = cell.split('\n');
-                                            for (lineIndex in lines){
-                                                $('<p/>').appendTo(td).text(lines[lineIndex]);
-                                            }
-                                        }
-                                    }
-                                }
-                                parsedDialog.find('span').text((count <= 1) ?
-                                    plugin.settings.confirmLabelSingle :
-                                    plugin.settings.confirmLabelMultiple
-                                );
-                                parsedDialog.dialog('option', 'title', 
-                                    (count <= 1) ?
-                                        plugin.settings.confirmHeaderSingle :
-                                        plugin.settings.confirmHeaderMultiple
-                                );
-                                parsedDialog.find('input[name="ok"]').click(function(){
+                            setTimeout(function(){
+                                var result = plugin.copyClipboardToArray(contents);
+                                result = plugin.settings.postProcess(result);
+                                if (false === result){
                                     parsedDialog.dialog('option', 'close', null);
                                     parsedDialog.dialog('close');
-                                    plugin.settings.success(result[this.getAttribute('data-tableindex')]);
-                                });
-                                parsedDialog.find('input[name="cancel"]').click(function(){
-                                    parsedDialog.dialog('close');
-                                });
-                            }
+                                    plugin.showPasteDialog(contents, plugin.settings.pasteError);
+                                } else {
+                                    var tableIndex;
+                                    var rowIndex;
+                                    var colIndex;
+                                    var lineIndex;
+                                    var lines;
+                                    var cell;
+                                    var count = 0;
+                                    var i;
+                                    for (tableIndex in result){
+                                        if (result[tableIndex].length === 0) {
+                                            continue;
+                                        }
+                                        count ++;
+                                        var div = $('<div/>').appendTo(parsedDialog);
+                                        var table = $('<table class="table table-bordered"/>').appendTo(div);
+                                        $('<div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div>').appendTo(div);
+                                        div.find('input[name="ok"]').val(plugin.settings.confirmOk);
+                                        div.find('input[name="cancel"]').val(plugin.settings.confirmCancel);
+                                        div.find('input[name="ok"]').attr('data-tableindex', tableIndex);
+                                        var tbody = $('<tbody/>').appendTo(table);
+                                        var maxCells = 0;
+                                        for (rowIndex in result[tableIndex]){
+                                            maxCells = Math.max(maxCells, result[tableIndex][rowIndex].length);
+                                        }
+                                        for (rowIndex in result[tableIndex]){
+                                            var tr = $('<tr/>').appendTo(tbody);
+                                            for (i = result[tableIndex][rowIndex].length; i < maxCells; i++){
+                                                result[tableIndex][rowIndex].push('');
+                                            }
+                                            for (colIndex in result[tableIndex][rowIndex]){
+                                                var td = $('<td/>').appendTo(tr);
+                                                cell = result[tableIndex][rowIndex][colIndex];
+                                                if ('undefined' === typeof cell) {
+                                                    cell = '';
+                                                }
+                                                if ('string' !== typeof cell) {
+                                                    cell = '' + cell;
+                                                }
+                                                result[tableIndex][rowIndex][colIndex] = cell;
+                                                lines = cell.split('\n');
+                                                for (lineIndex in lines){
+                                                    $('<p/>').appendTo(td).text(lines[lineIndex]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    parsedDialog.find('span').text((count <= 1) ?
+                                        plugin.settings.confirmLabelSingle :
+                                        plugin.settings.confirmLabelMultiple
+                                    );
+                                    parsedDialog.dialog('option', 'title', 
+                                        (count <= 1) ?
+                                            plugin.settings.confirmHeaderSingle :
+                                            plugin.settings.confirmHeaderMultiple
+                                    );
+                                    parsedDialog.find('input[name="ok"]').click(function(){
+                                        parsedDialog.dialog('option', 'close', null);
+                                        parsedDialog.dialog('close');
+                                        plugin.settings.success(result[this.getAttribute('data-tableindex')]);
+                                    });
+                                    parsedDialog.find('input[name="cancel"]').click(function(){
+                                        parsedDialog.dialog('close');
+                                    });
+                                }
+                            }, 0);
                         }
                     });
                 },
