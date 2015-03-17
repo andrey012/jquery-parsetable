@@ -194,6 +194,10 @@
                                     parsedDialog.find('input[name="cancel"]').click(function(){
                                         parsedDialog.dialog('close');
                                     });
+                                    parsedDialog.find('input[name="ok"]').each(function(i,el){
+                                        el.scrollIntoView();
+                                        return false;
+                                    });
                                 }
                             }, 0);
                         }
