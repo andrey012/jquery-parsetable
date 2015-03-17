@@ -64,26 +64,6 @@
             var useSample = function(body, name){
                 body.innerHTML = registeredSamplesData[name + '-html'];
                 return registeredSamplesData[name + '-json'];
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'data/' + name + '.html',
-                    async: false,
-                    cache: false,
-                    success: function(data){ body.innerHTML = data;},
-                });
-                var result; 
-                $.ajax({
-                    type: 'GET',
-                    url: 'data/' + name + '.json',
-                    async: false,
-                    cache: false,
-                    success: function(data){ 
-                        result = data;
-                    },
-                    dataType: 'json',
-                });
-                return result;
             }
             var getDialog = function(){
                 return $('.ui-dialog:visible:last');
@@ -194,12 +174,14 @@
                         }
 
                         for (sampleKey in registeredSamples){
-                            QUnit.test( 
-                                "checkRecognition: " + registeredSamples[sampleKey] , 
-                                function ( assert ) {
-                                    return recognitionTest(assert, registeredSamples[sampleKey]);
-                                }
-                            );
+                            (function(sampleKey){
+                                QUnit.test( 
+                                    "checkRecognition: " + registeredSamples[sampleKey] , 
+                                    function ( assert ) {
+                                        return recognitionTest(assert, registeredSamples[sampleKey]);
+                                    }
+                                );
+                            })(sampleKey);
                         }
                         console.log('tests completed');
 
