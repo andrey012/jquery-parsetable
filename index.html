@@ -11,7 +11,7 @@
 	<body>
         <div class="container">
             <h1>
-                jQuery ParseTable demo page
+                jQuery ParseTable plugin demo page
             </h1>
             <p>
                 Simply copy (Ctrl-C) few cells from your spreadsheet or table in text application and click "test link"
@@ -23,6 +23,22 @@
                     </span>
                 </center>
             </h3>
+            <p>The code of this demo is: </p>
+            <pre>
+&lt;a id="test" href="#"&gt;test link&lt;/a&gt;
+&lt;script&gt;
+    jQuery(document).ready(function() {
+        jQuery("#test").parseTable({
+            success: function(data){alert('the action was completed, here is the data \n' + data.join("\n"));},
+            cancel: function(){alert('the action was cancelled');},
+        });
+    });
+&lt;/script&gt;
+            </pre>
+            <h2>Get from GitHub</h2>
+            <p><a href="https://github.com/andrey012/jquery-parsetable">https://github.com/andrey012/jquery-parsetable</a></p>
+            <h2>Install with Bower</h2>
+            <p><pre>bower install jquery-pastetable</pre></p>
         </div>
 		<script>
 			jQuery(document).ready(function() {
