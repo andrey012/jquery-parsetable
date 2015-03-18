@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery ParseTable</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
+		<script src="src/jquery.parsetable.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/ui-lightness/jquery-ui.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+	<body>
+        <div class="container">
+            <h1>
+                jQuery ParseTable demo page
+            </h1>
+            <p>
+                Simply copy (Ctrl-C) few cells from your spreadsheet or table in text application and click "test link"
+            </p>
+            <h3>
+                <center>
+                    <span class="label label-warning">
+                        <a id="test" href="#">test link</a>
+                    </span>
+                </center>
+            </h3>
+        </div>
+		<script>
+			jQuery(document).ready(function() {
+				jQuery("#test").parseTable({
+                    success: function(data){alert('the action was completed, here is the data \n' + data.join("\n"));},
+                    cancel: function(){alert('the action was cancelled');},
+                });
+			});
+		</script>
+	</body>
+</html>
