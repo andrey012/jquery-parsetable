@@ -1,11 +1,12 @@
 {
 	"name": "jquery-pastetable",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"authors": [
 		"Andrey Grinenko <andrey012@gmail.com>"
 	],
 	"description": "A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on a web page.",
 	"main": "src/jquery.pastetable.js",
+	"homepage": "http://andrey012.github.io/jquery-parsetable/",
 	"keywords": [
 		"jquery",
 		"plugin",
