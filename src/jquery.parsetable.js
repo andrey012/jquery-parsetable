@@ -124,8 +124,9 @@
                         open: function(){
                             plugin.fixOverlayZindex(parsedDialog);
                             setTimeout(function(){
-                                var result = plugin.copyClipboardToArray(contents);
-                                result = plugin.settings.postProcess(result);
+                                var rawResult = plugin.copyClipboardToArray(contents);
+                                var postProcessedResult = plugin.settings.postProcess(rawResult);
+                                var result = postProcessedResult;
                                 if (false === result){
                                     parsedDialog.dialog('option', 'close', null);
                                     parsedDialog.dialog('close');
@@ -183,9 +184,12 @@
                                     );
                                     parsedDialog.find('span').after('<a href="#" style="opacity: 0">debug</a>');
                                     parsedDialog.find('a').click(function(){
-                                        parsedDialog.find('span').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;"></textarea>');
+                                        parsedDialog.find('span').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Parsed JSON:<br/><textarea onclick="this.select()" name="debug_parsedjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Post processed JSON:<br/><textarea onclick="this.select()" name="debug_ppjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Cleaned (final) JSON:<br/><textarea onclick="this.select()" name="debug_cleanedjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea>');
                                         parsedDialog.find('input[name="debug_base64"]').val(btoa(contents));
-parsedDialog.find('textarea[name="debug_html"]').val(contents);
+                                        parsedDialog.find('textarea[name="debug_html"]').val(contents);
+                                        parsedDialog.find('textarea[name="debug_parsedjson"]').val(JSON.stringify(rawResult, null, '  '));
+                                        parsedDialog.find('textarea[name="debug_ppjson"]').val(JSON.stringify(rawResult, null, '  '));
+                                        parsedDialog.find('textarea[name="debug_cleanedjson"]').val(JSON.stringify(rawResult, null, '  '));
                                         return false;
                                     });
                                     parsedDialog.dialog('option', 'title', 
@@ -273,6 +277,8 @@ parsedDialog.find('textarea[name="debug_html"]').val(contents);
                                             array2[k] = array2[k].replace(/<strong>/g, '');
                                             array2[k] = array2[k].replace(/<\/strong>/g, '');
                                             array2[k] = array2[k].replace(/&amp;/g, '&');
+                                            array2[k] = array2[k].replace(/^\s+/g, '');
+                                            array2[k] = array2[k].replace(/\s+$/g, '');
                                             resultRow.push(array2[k]);
                                             if (array2[k].length > 0) {
                                                 nonEmpty = k;
@@ -287,7 +293,9 @@ parsedDialog.find('textarea[name="debug_html"]').val(contents);
                                     }
                                 }
                             }
-                            result.push(resultTable);
+                            if (resultTable.length > 0) {
+                                result.push(resultTable);
+                            }
                         }
                     } else {
                         return false;
