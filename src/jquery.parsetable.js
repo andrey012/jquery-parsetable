@@ -181,6 +181,13 @@
                                         plugin.settings.confirmLabelSingle :
                                         plugin.settings.confirmLabelMultiple
                                     );
+                                    parsedDialog.find('span').after('<a href="#" style="opacity: 0">debug</a>');
+                                    parsedDialog.find('a').click(function(){
+                                        parsedDialog.find('span').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;"></textarea>');
+                                        parsedDialog.find('input[name="debug_base64"]').val(btoa(contents));
+parsedDialog.find('textarea[name="debug_html"]').val(contents);
+                                        return false;
+                                    });
                                     parsedDialog.dialog('option', 'title', 
                                         (count <= 1) ?
                                             plugin.settings.confirmHeaderSingle :
@@ -257,7 +264,8 @@
                                             //array2[k] = array2[k].replace(/[\n]+/g, ' '); // uncomment this line to strip newlines inside cells at all
                                             array2[k] = array2[k].replace(/[ \t]+/g, ' ');
                                             array2[k] = array2[k].replace(/^\s+/g, '');
-                                            array2[k] = array2[k].replace(/<colgroup[ >].*<\/colgroup>[ \r\n]*/g, '');
+                                            array2[k] = array2[k].replace(/<colgroup[ >](.*<\/colgroup>)?[ \r\n]*/g, '');
+                                            array2[k] = array2[k].replace(/<col(([ ]?[>])|([ ][^>]+[>]))[ \r\n]*/g, '');
                                             array2[k] = array2[k].replace(/<font[^>]*>/g, '');
                                             array2[k] = array2[k].replace(/<\/font>/g, '');
                                             array2[k] = array2[k].replace(/<b>/g, '');
