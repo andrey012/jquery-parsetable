@@ -25,7 +25,7 @@
             <h3>
                 <center>
                     <span class="label label-warning">
-                        <a id="test" href="#" onClick="ga('send', 'event', 'button', 'click', 'test', 1);">test link</a>
+                        <a id="test" href="#" onClick="ga('send', 'event', 'button', 'test', '', 1);">test link</a>
                     </span>
                 </center>
             </h3>
@@ -55,13 +55,13 @@
             <p><a href="https://github.com/andrey012/jquery-parsetable" onClick="trackGitHub(this); return false;">https://github.com/andrey012/jquery-parsetable</a></p>
             <h2>Install with Bower</h2>
             <p>
-            <textarea readonly="readonly" rows="1" style="font-family: Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace; padding: 9px; 14px; background-color: #F7F7F9; border: 1px solid #E1E1E8; width: 100%"  onClick="ga('send', 'event', 'click', 'install', 'bower', 1); this.select(); return true;">bower install jquery-pastetable</textarea></p>
+            <textarea readonly="readonly" rows="1" style="font-family: Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace; padding: 9px; 14px; background-color: #F7F7F9; border: 1px solid #E1E1E8; width: 100%"  onClick="ga('send', 'event', 'install', 'bower', '', 1); this.select(); return true;">bower install jquery-pastetable</textarea></p>
         </div>
 		<script>
 			jQuery(document).ready(function() {
 				jQuery("#test").parseTable({
                     success: function(data){
-                        ga('send', 'event', 'call', 'callback', 'success', (data instanceof Array) ? data.length : 0); 
+                        ga('send', 'event', 'callback', 'success', '', (data instanceof Array) ? data.length : 0); 
                         alert(
                             'the action was completed, here is the data \n' +
                             data.map(
@@ -72,7 +72,7 @@
                         );
                     },
                     cancel: function(){
-                        ga('send', 'event', 'call', 'callback', 'cancel', 1);
+                        ga('send', 'event', 'callback', 'cancel', '', 1);
                         alert('the action was cancelled');
                     }
                 });
@@ -87,7 +87,7 @@
           ga('create', 'UA-60902332-1', 'auto');
           ga('send', 'pageview');
           var trackGitHub = function(a) {
-            ga('send', 'event', 'click', 'install', 'github', { 'hitCallback': function () { document.location = a.getAttribute('href'); }} );
+            ga('send', 'event', 'install', 'github', '', { 'hitCallback': function () { document.location = a.getAttribute('href'); }} );
           }
         </script>
     </body>
