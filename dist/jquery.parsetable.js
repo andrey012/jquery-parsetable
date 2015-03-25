@@ -53,7 +53,7 @@
                 },
                 showPasteDialog: function (content, message) {
                     var plugin = this;
-                    var dialog = $('<div><div></div><span style="color: red;"></span><iframe style="width: 100%"></iframe><div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
+                    var dialog = $('<div><div></div><span style="color: red;"></span><div style="margin-bottom: -50px; height: 50px; width: 100%; text-align: center; font-size: 2em; opacity: 0.3;"></div><iframe style="width: 100%"></iframe><div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
                     dialog.dialog({
                         title: plugin.settings.pasteHeader,
                         modal: true,
@@ -61,6 +61,7 @@
                         close: plugin.settings.cancel,
                         open: function(){plugin.fixOverlayZindex(dialog);},
                     });
+                    dialog.find('div ~ span ~ div:first').text(plugin.settings.pasteLabel);
                     var iframe = dialog.find('iframe')[0];
                     var doc;
                     if (iframe.contentDocument) {
@@ -73,8 +74,6 @@
                     doc.write ('<body style="margin: 0; padding: 0;" CONTENTEDITABLE>');
                     if (null != content){
                         doc.body.innerHTML = content;
-                    } else {
-                        doc.body.innerHTML = plugin.settings.pasteLabel;
                     }
                     if (null != message){
                         dialog.find('span').text(message);
