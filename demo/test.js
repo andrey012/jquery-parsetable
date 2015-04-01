@@ -45,7 +45,7 @@ if (service && success) {
  */
 function waitFor(testFx, onReady, timeOutMillis) {
     console.trace()
-    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3001, //< Default Max Timout is 3s
+    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 30001, //< Default Max Timout is 3s
         start = new Date().getTime(),
         condition = false,
         interval = setInterval(function() {
