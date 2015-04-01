@@ -6,6 +6,7 @@
         var defaults = {
             pasteHeader: 'Paste your table here',
             pasteLabel: 'Paste table here (Ctrl-V)',
+            pasteHint: 'You can paste mixed data with several tables, just do Ctrl-A Ctrl-C Ctrl-V from your document',
             pasteError: 'This contents does not look like a table',
             pasteOk: 'Ok',
             pasteCancel: 'Cancel',
@@ -45,7 +46,7 @@
                 },
                 showPasteDialog: function (content, message) {
                     var plugin = this;
-                    var dialog = $('<div><div></div><span style="color: red;"></span><div style="margin-bottom: -50px; height: 50px; width: 100%; text-align: center; font-size: 2em; opacity: 0.3;"></div><iframe style="width: 100%"></iframe><div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
+                    var dialog = $('<div><div></div><span style="color: red;"></span><div style="margin-bottom: -50px; height: 50px; width: 100%; text-align: center; font-size: 2em; opacity: 0.3;"></div><iframe style="width: 100%"></iframe><div style="text-align: center;"><span></span><br/><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
                     dialog.dialog({
                         title: plugin.settings.pasteHeader,
                         modal: true,
@@ -54,6 +55,7 @@
                         open: function(){plugin.fixOverlayZindex(dialog);},
                     });
                     dialog.find('div ~ span ~ div:first').text(plugin.settings.pasteLabel);
+                    dialog.find('div:last > span').text(plugin.settings.pasteHint);
                     var iframe = dialog.find('iframe')[0];
                     var doc;
                     if (iframe.contentDocument) {
