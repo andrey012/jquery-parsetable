@@ -273,7 +273,7 @@
                                             array2[k] = array2[k].replace(/<col(([ ]?[>])|([ ][^>]+[>]))[ \r\n]*/g, '');
                                             array2[k] = array2[k].replace(/<font[^>]*>/g, '');
                                             array2[k] = array2[k].replace(/<\/font>/g, '');
-                                            array2[k] = array2[k].replace(/<b>/g, '');
+                                            array2[k] = array2[k].replace(/<b( [^>]+)?>/g, '');
                                             array2[k] = array2[k].replace(/<\/b>/g, '');
                                             array2[k] = array2[k].replace(/<strong>/g, '');
                                             array2[k] = array2[k].replace(/<\/strong>/g, '');
