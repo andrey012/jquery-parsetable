@@ -45,8 +45,11 @@
                         return false;
                     });
                     if (plugin.settings.openOnPageLoad){
+                        var element = this.element;
                         $(document).ready(function(){
-                            plugin.showPasteDialog();
+                            if ($(element).is(':visible')){
+                                plugin.showPasteDialog();
+                            }
                         });
                     }
                 },
