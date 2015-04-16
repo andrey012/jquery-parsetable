@@ -23,7 +23,8 @@
             cancel: function(){}, // override me if you want to handle this event
             postProcess: function(data){
                 return data;
-            }
+            },
+            openOnPageLoad: false
         };
 
         // The actual plugin constructor
@@ -43,6 +44,11 @@
                         plugin.showPasteDialog();
                         return false;
                     });
+                    if (plugin.settings.openOnPageLoad){
+                        $(document).ready(function(){
+                            plugin.showPasteDialog();
+                        });
+                    }
                 },
                 showPasteDialog: function (content, message) {
                     var plugin = this;

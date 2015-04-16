@@ -1,5 +1,5 @@
 /*
- *  jquery-parsetable - v0.0.15
+ *  jquery-parsetable - v0.0.16
  *  A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on web page.
  *  https://github.com/andrey012/jquery-parsetable.git
  *
@@ -31,7 +31,8 @@
             cancel: function(){}, // override me if you want to handle this event
             postProcess: function(data){
                 return data;
-            }
+            },
+            openOnPageLoad: false
         };
 
         // The actual plugin constructor
@@ -51,6 +52,11 @@
                         plugin.showPasteDialog();
                         return false;
                     });
+                    if (plugin.settings.openOnPageLoad){
+                        $(document).ready(function(){
+                            plugin.showPasteDialog();
+                        });
+                    }
                 },
                 showPasteDialog: function (content, message) {
                     var plugin = this;
