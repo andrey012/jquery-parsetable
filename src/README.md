@@ -1,7 +1,4 @@
-# jQuery Parse Table Plugin [![Build Status](https://secure.travis-ci.org/andrey012/jquery-parsetable.svg?branch=master)](https://travis-ci.org/andrey012/jquery-parsetable)
-
 [Live Demo](http://andrey012.github.io/jquery-parsetable/)
-[JSDoc](http://andrey012.github.io/jquery-parsetable/docs/)
 
 This is simple jQuery plugin, which handles capturing and parsing copy-pasted data from spreadsheet and text editors, pasted into the contenteditable iframe.
 
@@ -25,6 +22,7 @@ Simplicity of integration was main goal:
 
 ```data``` is 2-dimentional array with lines and cells of parsed data.
 
-Full list of settings and default values is in [JSDoc](http://andrey012.github.io/jquery-parsetable/docs/ParseTablePlugin-Settings.html)
+
+Full list of settings and default values is in [JSDoc](ParseTablePlugin-Settings.html)
 
 Each of the editors has its own style and HTML formatting, so if it happens, that your data is not parsed  correctly - try to cut out raw HTML of pasted data, add pair of files to demo/data folder and create pull request.

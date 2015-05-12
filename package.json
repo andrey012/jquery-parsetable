@@ -1,6 +1,6 @@
 {
   "name": "jquery-parsetable",
-  "version": "0.0.18",
+  "version": "0.1.0",
   "description": "A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on web page.",
   "keywords": [
     "jquery-plugin",
@@ -38,7 +38,8 @@
     "grunt-contrib-jshint": "^0.11.0",
     "grunt-contrib-uglify": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1",
-    "jsdoc": "*"
+    "jsdoc": "~3.3.0-alpha4",
+    "grunt-shell": "~0.6.4"
   },
   "scripts": {
     "test": "grunt travis --verbose"
