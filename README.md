@@ -1,6 +1,7 @@
 # jQuery Parse Table Plugin [![Build Status](https://secure.travis-ci.org/andrey012/jquery-parsetable.svg?branch=master)](https://travis-ci.org/andrey012/jquery-parsetable)
 
 [Live Demo](http://andrey012.github.io/jquery-parsetable/)
+
 [JSDoc](http://andrey012.github.io/jquery-parsetable/docs/)
 
 This is simple jQuery plugin, which handles capturing and parsing copy-pasted data from spreadsheet and text editors, pasted into the contenteditable iframe.
