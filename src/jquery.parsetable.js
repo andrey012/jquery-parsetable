@@ -249,6 +249,13 @@
             doc.write ('<body style="margin: 0; padding: 0;" CONTENTEDITABLE>');
             if (null != content){
                 doc.body.innerHTML = content;
+                dialog.find('span').after('<a href="#" style="opacity: 0;">debug</a>');
+                dialog.find('a').click(function(){
+                    dialog.find('a').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly"></textarea>');
+                                dialog.find('input[name="debug_base64"]').val(btoa(content));
+                                dialog.find('textarea[name="debug_html"]').val(content);
+                });
+
             }
             if (null != message){
                 dialog.find('span').text(message);
@@ -543,6 +550,41 @@
                     if (resultTable.length > 0) {
                         result.push(resultTable);
                     }
+                }
+            } else if (/(<br\/?>|<div>)/igm.test(content)) {
+                var rows;
+                content = content
+                    .replace(/<span[^>]*>/igm, '')
+                    .replace(/<\/span>/igm, '');
+                if (/(<br\/?>)/igm.test(content)) {
+                    rows = content.split(/<br\/?>/);
+                } else {
+                    rows = content.replace(/<div>/igm, '').split(/<\/div\/?>/);
+                }
+                var rowIndex;
+                var row;
+                var cellIndex;
+                var cells;
+                var cell;
+                for (rowIndex = 0 ; rowIndex < rows.length ; rowIndex ++){
+                    row = rows[rowIndex].replace(/[\n\r]/, '');
+                    row = row.replace(/(&nbsp;| )+/g, '\t');
+                    cells = row.split(/[\t]/);
+                    resultRow = [];
+                    for (cellIndex = 0; cellIndex < cells.length; cellIndex ++){
+                        cell = cells[cellIndex];
+                        if (cell.length > 0) {
+                            resultRow.push(cell);
+                        }
+                    }
+                    if (resultRow.length > 0) {
+                        resultTable.push(resultRow);
+                    }
+                }
+                if (resultTable.length > 0) {
+                    return [resultTable];
+                } else {
+                    return false;
                 }
             } else {
                 return false;
