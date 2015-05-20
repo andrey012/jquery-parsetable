@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-
+    grunt.loadNpmTasks('grunt-shell');
 	grunt.initConfig({
 
 		// Import package manifest
@@ -46,6 +46,13 @@ module.exports = function(grunt) {
 				banner: "<%= meta.banner %>"
 			}
 		},
+        
+        // Generate JSDoc documentation
+        shell: {
+            build_docs: {
+                command: "./node_modules/.bin/jsdoc src/jquery.parsetable.js -p -R src/README.md -d docs"
+            }
+        },
 
 		// watch for changes to source
 		// Better than calling grunt a million times
@@ -63,7 +70,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-coffee");
 	grunt.loadNpmTasks("grunt-contrib-watch");
 
-	grunt.registerTask("build", ["concat", "uglify"]);
+	grunt.registerTask("build", ["concat", "uglify", "shell"]);
 	grunt.registerTask("default", ["jshint", "build"]);
 	grunt.registerTask("travis", ["default"]);
 

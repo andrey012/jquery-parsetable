@@ -16,11 +16,12 @@
 
 /**
  * Anonymous jQuery plugin wrapper function
- * @function ParseTablePlugin~parseTablePluginWrapper
+ * @function ParseTablePlugin~anonymousWrapper
  * @param {external:jQuery} $ jQuery core object
  * @param {Window} window window object
  * @param {HTMLElement} document document object
  * @param {undefined} undefined used to have ethalon of undefined
+ * @access private
  */
 ;(function ( $, window, document, undefined ) {
 
@@ -179,6 +180,7 @@
 
     /**
      * @class ParseTablePlugin~Plugin
+     * @access private
      */
     function Plugin ( element, options ) {
             this.element = element;
@@ -195,6 +197,7 @@
          * If {@link ParseTablePlugin~Settings#openOnPageLoad} is set to true 
          * then adds another handler on $(document).ready -- same action
          * @function ParseTablePlugin~Plugin#init
+         * @access private
          */
         init: function () {
             var plugin = this;
@@ -218,6 +221,7 @@
          * This is used when user clicks "Cancel" button on confirmation
          * dialog, or when table can not be parsed
          * @param {string} [message] Text for red message on paste dialog (error message)
+         * @access private
          */
         showPasteDialog: function (content, message) {
             var plugin = this;
@@ -312,6 +316,7 @@
          * @function ParseTablePlugin~Plugin#parseTable
          * @param {string} contents HTML of WYSIWYG CONTENTEDITABLE iframe
          * @param {Dialog} dialog existing dialog.
+         * @access private
          */
         parseTable: function(contents, dialog){
             var plugin = this;
@@ -446,6 +451,7 @@
          * @returns {Array.<Array.<Array.<string|number>>>} array of found tables, each
          * table is array of found rows, each row is array of cell values - either
          * string or number
+         * @access private
          */
         parseHTMLTable: function(content) {
             /** @type {Array.<HTMLString>} */
@@ -596,6 +602,7 @@
          * Then sets z-index of dialog argument to be at the top of all parents.
          * @function ParseTablePlugin~Plugin#fixOverlayZindex
          * @param {Dialog} dialog
+         * @access private
          */
         fixOverlayZindex: function(dialog){
             var max = 100;
@@ -612,11 +619,26 @@
     });
 
     /**
+     * Plugin function. Should be used on elements, that can be clicked
+     * (buttons, links, etc)
+     * @example
+     * <a id="enter-table-button" class="btn btn-xs" href="#">
+     *     Paste your data here
+     * </a>
+     * <script>
+     *     $("#enter-table-button").parseTable({
+     *         // here go configuration options
+     *         success: function (data) {
+     *             $.ajax(...) // send data to server
+     *         }
+     *     });
+     * </script>
      * @function external:"jQuery.fn".parseTable
      * @global
      * @name "jQuery.fn.parseTable"
      * @param {ParseTablePlugin~Settings} options
      * @returns {external:jQuery}
+     * @access public
      */
     $.fn[ pluginName ] = function ( options ) {
             return this.each(function() {

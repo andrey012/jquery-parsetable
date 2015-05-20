@@ -1,12 +1,32 @@
-/*
- *  jquery-parsetable - v0.1.1
- *  A jQuery plugin for capturing and parsing table data by copy-paste from text and spreadsheet editors directly to the form on web page.
- *  https://github.com/andrey012/jquery-parsetable.git
- *
- *  Made by Andrey Grinenko
- *  Under MIT License
- */
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: jquery.parsetable.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: jquery.parsetable.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * The jQuery core object
  * @external jQuery
  * @see {@link http://api.jquery.com/jQuery/}
@@ -43,7 +63,7 @@
     /**
      * @callback ParseTablePlugin~onSuccess Called when user chooses one of parsed tables and 
      * confirms, that this is data, that he likes
-     * @param {Array.<Array.<string|number>>} data Array of rows, each row is array of 
+     * @param {Array.&lt;Array.&lt;string|number>>} data Array of rows, each row is array of 
      * cell values - either strings or numbers. Newlines are always single \n.
      */
 
@@ -55,10 +75,10 @@
      * @callback ParseTablePlugin~onPostProcess Called after table is parsed and before 
      * result is shown to user for confirmation. You can handle this callback and modify 
      * data on the fly. 
-     * @param {Array.<Array.<Array.<string|number>>>} data Array of found tables, each table is 
+     * @param {Array.&lt;Array.&lt;Array.&lt;string|number>>>} data Array of found tables, each table is 
      * array of rows, each row is array of cell values - either strings or numbers. 
      * Newlines are always single \n.
-     * @returns {Array.<Array.<Array.<string|number>>>} same as data argument
+     * @returns {Array.&lt;Array.&lt;Array.&lt;string|number>>>} same as data argument
      */
 
     /**
@@ -234,7 +254,7 @@
         showPasteDialog: function (content, message) {
             var plugin = this;
             // initialize dialog
-            var dialog = $('<div><div></div><span style="color: red;"></span><div style="margin-bottom: -50px; height: 50px; width: 100%; text-align: center; font-size: 2em; opacity: 0.3;"></div><iframe style="width: 100%"></iframe><div style="text-align: center;"><span></span><br/><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div></div>');
+            var dialog = $('&lt;div>&lt;div>&lt;/div>&lt;span style="color: red;">&lt;/span>&lt;div style="margin-bottom: -50px; height: 50px; width: 100%; text-align: center; font-size: 2em; opacity: 0.3;">&lt;/div>&lt;iframe style="width: 100%">&lt;/iframe>&lt;div style="text-align: center;">&lt;span>&lt;/span>&lt;br/>&lt;input type="button" name="ok" value=""/>&lt;input type="button" name="cancel" value=""/>&lt;/div>&lt;/div>');
             dialog.dialog({
                 title: plugin.settings.pasteHeader,
                 modal: true,
@@ -258,12 +278,12 @@
                 doc = iframe.document;
             }
             // create CONTENTEDITABLE iframe
-            doc.write ('<body style="margin: 0; padding: 0;" CONTENTEDITABLE>');
+            doc.write ('&lt;body style="margin: 0; padding: 0;" CONTENTEDITABLE>');
             if (null != content){
                 doc.body.innerHTML = content;
-                dialog.find('span').after('<a href="#" style="opacity: 0;">debug</a>');
+                dialog.find('span').after('&lt;a href="#" style="opacity: 0;">debug&lt;/a>');
                 dialog.find('a').click(function(){
-                    dialog.find('a').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly"></textarea>');
+                    dialog.find('a').after('&lt;br/>Debug information:&lt;br/>Base64 of HTML:&lt;br/>&lt;input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/>&lt;br/>HTML:&lt;br/>&lt;textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly">&lt;/textarea>');
                                 dialog.find('input[name="debug_base64"]').val(btoa(content));
                                 dialog.find('textarea[name="debug_html"]').val(content);
                 });
@@ -296,7 +316,7 @@
             // track Esc button and close dialog when Esc is pressed
             var trackEsc = false;
             doc.body.onkeydown = function(e){
-                if ((e.keyCode === 27) && !e.altKey && !e.ctrlKey && !e.shiftKey){
+                if ((e.keyCode === 27) &amp;&amp; !e.altKey &amp;&amp; !e.ctrlKey &amp;&amp; !e.shiftKey){
                     if (dialog.is(':visible')){
                         trackEsc = true;
                     }
@@ -304,7 +324,7 @@
             };
             doc.body.onkeyup = function(e){
                 // Esc handler
-                if ((e.keyCode === 27) && !e.altKey && !e.ctrlKey && !e.shiftKey && trackEsc){
+                if ((e.keyCode === 27) &amp;&amp; !e.altKey &amp;&amp; !e.ctrlKey &amp;&amp; !e.shiftKey &amp;&amp; trackEsc){
                     dialog.dialog('close');
                     trackEsc = false;
                 } else {
@@ -332,7 +352,7 @@
             dialog.dialog('option', 'close', null);
             dialog.dialog('close');
             // configure another dialog - wait dialog (showing "Please wait..." message)
-            var parsedDialog = $('<div><span></span></div>');
+            var parsedDialog = $('&lt;div>&lt;span>&lt;/span>&lt;/div>');
             parsedDialog.dialog({
                 title: plugin.settings.wait,
                 modal: true,
@@ -368,14 +388,14 @@
                                     continue;
                                 }
                                 count ++;
-                                var div = $('<div/>').appendTo(parsedDialog);
+                                var div = $('&lt;div/>').appendTo(parsedDialog);
                                 // prepare table block for confirmation dialog
-                                var table = $('<table class="table table-bordered"/>').appendTo(div);
-                                $('<div style="text-align: center;"><input type="button" name="ok" value=""/><input type="button" name="cancel" value=""/></div>').appendTo(div);
+                                var table = $('&lt;table class="table table-bordered"/>').appendTo(div);
+                                $('&lt;div style="text-align: center;">&lt;input type="button" name="ok" value=""/>&lt;input type="button" name="cancel" value=""/>&lt;/div>').appendTo(div);
                                 div.find('input[name="ok"]').val(plugin.settings.confirmOk);
                                 div.find('input[name="cancel"]').val(plugin.settings.confirmCancel);
                                 div.find('input[name="ok"]').attr('data-tableindex', tableIndex);
-                                var tbody = $('<tbody/>').appendTo(table);
+                                var tbody = $('&lt;tbody/>').appendTo(table);
                                 var maxCells = 0;
                                 // enumerate rows and find widest row
                                 for (rowIndex in result[tableIndex]){
@@ -383,12 +403,12 @@
                                 }
                                 // create table
                                 for (rowIndex in result[tableIndex]){
-                                    var tr = $('<tr/>').appendTo(tbody);
-                                    for (i = result[tableIndex][rowIndex].length; i < maxCells; i++){
+                                    var tr = $('&lt;tr/>').appendTo(tbody);
+                                    for (i = result[tableIndex][rowIndex].length; i &lt; maxCells; i++){
                                         result[tableIndex][rowIndex].push('');
                                     }
                                     for (colIndex in result[tableIndex][rowIndex]){
-                                        var td = $('<td/>').appendTo(tr);
+                                        var td = $('&lt;td/>').appendTo(tr);
                                         cell = result[tableIndex][rowIndex][colIndex];
                                         if ('undefined' === typeof cell) {
                                             cell = '';
@@ -399,20 +419,20 @@
                                         result[tableIndex][rowIndex][colIndex] = cell;
                                         lines = cell.split('\n');
                                         for (lineIndex in lines){
-                                            $('<p/>').appendTo(td).text(lines[lineIndex]);
+                                            $('&lt;p/>').appendTo(td).text(lines[lineIndex]);
                                         }
                                     }
                                 }
                             }
                             // depending on number of found tables - use appropriate texts from settings
-                            parsedDialog.find('span').text((count <= 1) ?
+                            parsedDialog.find('span').text((count &lt;= 1) ?
                                 plugin.settings.confirmLabelSingle :
                                 plugin.settings.confirmLabelMultiple
                             );
-                            parsedDialog.find('span').after('<a href="#" style="opacity: 0">debug</a>');
-                            // debug information - create hidden <a> tag, which shows all the info
+                            parsedDialog.find('span').after('&lt;a href="#" style="opacity: 0">debug&lt;/a>');
+                            // debug information - create hidden &lt;a> tag, which shows all the info
                             parsedDialog.find('a').click(function(){
-                                parsedDialog.find('span').after('<br/>Debug information:<br/>Base64 of HTML:<br/><input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/><br/>HTML:<br/><textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Parsed JSON:<br/><textarea onclick="this.select()" name="debug_parsedjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Post processed JSON:<br/><textarea onclick="this.select()" name="debug_ppjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea><br/>Cleaned (final) JSON:<br/><textarea onclick="this.select()" name="debug_cleanedjson" style="width: 100%; height: 150px;" readonly="readonly"></textarea>');
+                                parsedDialog.find('span').after('&lt;br/>Debug information:&lt;br/>Base64 of HTML:&lt;br/>&lt;input type="text" onclick="this.select()" name="debug_base64" style="width: 100%" readonly="readonly"/>&lt;br/>HTML:&lt;br/>&lt;textarea onclick="this.select()" name="debug_html" style="width: 100%; height: 150px;" readonly="readonly">&lt;/textarea>&lt;br/>Parsed JSON:&lt;br/>&lt;textarea onclick="this.select()" name="debug_parsedjson" style="width: 100%; height: 150px;" readonly="readonly">&lt;/textarea>&lt;br/>Post processed JSON:&lt;br/>&lt;textarea onclick="this.select()" name="debug_ppjson" style="width: 100%; height: 150px;" readonly="readonly">&lt;/textarea>&lt;br/>Cleaned (final) JSON:&lt;br/>&lt;textarea onclick="this.select()" name="debug_cleanedjson" style="width: 100%; height: 150px;" readonly="readonly">&lt;/textarea>');
                                 parsedDialog.find('input[name="debug_base64"]').val(btoa(contents));
                                 parsedDialog.find('textarea[name="debug_html"]').val(contents);
                                 parsedDialog.find('textarea[name="debug_parsedjson"]').val(JSON.stringify(rawResult, null, '  '));
@@ -423,7 +443,7 @@
                             });
                             // configure rest of confirmation dialog
                             parsedDialog.dialog('option', 'title', 
-                                (count <= 1) ?
+                                (count &lt;= 1) ?
                                     plugin.settings.confirmHeaderSingle :
                                     plugin.settings.confirmHeaderMultiple
                             );
@@ -453,26 +473,26 @@
             });
         },
         /** 
-         * Parses HTML looking for <table> and cleaning all the formatting rubbish
+         * Parses HTML looking for &lt;table> and cleaning all the formatting rubbish
          * @function ParseTablePlugin~Plugin#parseHTMLTable
          * @param {string} content HTML as pasted to WYSIWYG CONTENTEDITABLE iframe
-         * @returns {Array.<Array.<Array.<string|number>>>} array of found tables, each
+         * @returns {Array.&lt;Array.&lt;Array.&lt;string|number>>>} array of found tables, each
          * table is array of found rows, each row is array of cell values - either
          * string or number
          * @access private
          */
         parseHTMLTable: function(content) {
-            /** @type {Array.<HTMLString>} */
+            /** @type {Array.&lt;HTMLString>} */
             var sourceTables = [];
-            /** @type {Array.<HTMLString>} */
+            /** @type {Array.&lt;HTMLString>} */
             var sourceRows = [];
-            /** @type {Array.<HTMLString>} */
+            /** @type {Array.&lt;HTMLString>} */
             var sourceCells = [];
-            /** @type {Array.<Array.<Array.<string|number>>>} */
+            /** @type {Array.&lt;Array.&lt;Array.&lt;string|number>>>} */
             var result = [];
-            /** @type {Array.<Array.<string|number>>} */
+            /** @type {Array.&lt;Array.&lt;string|number>>} */
             var resultTable = [];
-            /** @type {Array.<string|number>} */
+            /** @type {Array.&lt;string|number>} */
             var resultRow = [];
             // false if there are no cells, otherwise rightmost cell index 
             /** @type {boolean|number} */
@@ -483,42 +503,42 @@
             var sourceRowIndex;
             /** @type {number} */
             var sourceCellIndex;
-            if (/<table[^>]*>([\s\S]*)<\/table>/igm.test(content)) {
-                sourceTables = content.split(/<\/table>/i);
-                for (sourceTableIndex = 0; sourceTableIndex < sourceTables.length; sourceTableIndex++){
+            if (/&lt;table[^>]*>([\s\S]*)&lt;\/table>/igm.test(content)) {
+                sourceTables = content.split(/&lt;\/table>/i);
+                for (sourceTableIndex = 0; sourceTableIndex &lt; sourceTables.length; sourceTableIndex++){
                     resultTable = [];
                     sourceTables[sourceTableIndex] = sourceTables[sourceTableIndex].replace(/[\n\r]+/g, '');
-                    sourceTables[sourceTableIndex] = sourceTables[sourceTableIndex].replace(/^.*[<]table[^>]*[>]/igm,'');
-                    sourceTables[sourceTableIndex] = sourceTables[sourceTableIndex].replace(/[<]\/table[>].*$/igm,'');
+                    sourceTables[sourceTableIndex] = sourceTables[sourceTableIndex].replace(/^.*[&lt;]table[^>]*[>]/igm,'');
+                    sourceTables[sourceTableIndex] = sourceTables[sourceTableIndex].replace(/[&lt;]\/table[>].*$/igm,'');
                     sourceRows = [];
-                    if (/<tr[^>]*>([\s\S]*)<\/tr>/igm.test(sourceTables[sourceTableIndex])) {
-                        sourceRows = sourceTables[sourceTableIndex].split(/<\/tr>/i);
-                        for (sourceRowIndex = 0; sourceRowIndex < sourceRows.length; sourceRowIndex++) {
+                    if (/&lt;tr[^>]*>([\s\S]*)&lt;\/tr>/igm.test(sourceTables[sourceTableIndex])) {
+                        sourceRows = sourceTables[sourceTableIndex].split(/&lt;\/tr>/i);
+                        for (sourceRowIndex = 0; sourceRowIndex &lt; sourceRows.length; sourceRowIndex++) {
                             resultRow = [];
                             nonEmpty = false;
                             sourceCells = [];
-                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/<tbody[^>]*>/igm,'');
-                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/<\/tbody>/igm,'');
-                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/<tr[^>]*>/igm,'');
-                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/<\/tr>/igm,'');
-                            if (/<td[^>]*>([\s\S]*)<\/td>/igm.test(sourceRows[sourceRowIndex])) {
-                                sourceCells = sourceRows[sourceRowIndex].split(/<\/td>/i);
-                                for (sourceCellIndex = 0; sourceCellIndex < sourceCells.length; sourceCellIndex++) {
+                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/&lt;tbody[^>]*>/igm,'');
+                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/&lt;\/tbody>/igm,'');
+                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/&lt;tr[^>]*>/igm,'');
+                            sourceRows[sourceRowIndex] = sourceRows[sourceRowIndex].replace(/&lt;\/tr>/igm,'');
+                            if (/&lt;td[^>]*>([\s\S]*)&lt;\/td>/igm.test(sourceRows[sourceRowIndex])) {
+                                sourceCells = sourceRows[sourceRowIndex].split(/&lt;\/td>/i);
+                                for (sourceCellIndex = 0; sourceCellIndex &lt; sourceCells.length; sourceCellIndex++) {
                                     sourceCells[sourceCellIndex] = sourceCells[sourceCellIndex]
-                                        .replace(/<\?xml[^>]*[>]/ig, '')
-                                        .replace(/<\/?st1[:][^>]+[>]/g, '')
-                                        .replace(/<td[^>]*>\s*/igm,'')
+                                        .replace(/&lt;\?xml[^>]*[>]/ig, '')
+                                        .replace(/&lt;\/?st1[:][^>]+[>]/g, '')
+                                        .replace(/&lt;td[^>]*>\s*/igm,'')
                                         .replace(/\s+$/igm,'')
-                                        .replace(/<\/td>/igm,'')
-                                        .replace(/line<\?[^\/>]*\/>/igm,'')
-                                        .replace(/<p[^>]*>/igm,'\n')
-                                        .replace(/<\/p>/igm,'')
-                                        .replace(/<span[^>]*>/igm,'')
-                                        .replace(/<\/span>/igm,'')
-                                        .replace(/<o[^>]*>/igm,'')
-                                        .replace(/<\/o[^>]*>/igm,'')
-                                        .replace(/&nbsp[;]/g,' ')
-                                        .replace(/<br\/?>/g,'\n')
+                                        .replace(/&lt;\/td>/igm,'')
+                                        .replace(/line&lt;\?[^\/>]*\/>/igm,'')
+                                        .replace(/&lt;p[^>]*>/igm,'\n')
+                                        .replace(/&lt;\/p>/igm,'')
+                                        .replace(/&lt;span[^>]*>/igm,'')
+                                        .replace(/&lt;\/span>/igm,'')
+                                        .replace(/&lt;o[^>]*>/igm,'')
+                                        .replace(/&lt;\/o[^>]*>/igm,'')
+                                        .replace(/&amp;nbsp[;]/g,' ')
+                                        .replace(/&lt;br\/?>/g,'\n')
                                         .replace(/[\r]/g, '')
                                         .replace(/^\n+/, '')
                                         .replace(/\n+$/, '')
@@ -526,15 +546,15 @@
                                         .replace(/\n\s+/g, '\n')
                                         .replace(/[ \t]+/g, ' ')
                                         .replace(/^\s+/g, '')
-                                        .replace(/<colgroup[ >](.*<\/colgroup>)?[ \r\n]*/g, '')
-                                        .replace(/<col(([ ]?[>])|([ ][^>]+[>]))[ \r\n]*/g, '')
-                                        .replace(/<font[^>]*>/g, '')
-                                        .replace(/<\/font>/g, '')
-                                        .replace(/<b( [^>]+)?>/g, '')
-                                        .replace(/<\/b>/g, '')
-                                        .replace(/<strong>/g, '')
-                                        .replace(/<\/strong>/g, '')
-                                        .replace(/&amp;/g, '&')
+                                        .replace(/&lt;colgroup[ >](.*&lt;\/colgroup>)?[ \r\n]*/g, '')
+                                        .replace(/&lt;col(([ ]?[>])|([ ][^>]+[>]))[ \r\n]*/g, '')
+                                        .replace(/&lt;font[^>]*>/g, '')
+                                        .replace(/&lt;\/font>/g, '')
+                                        .replace(/&lt;b( [^>]+)?>/g, '')
+                                        .replace(/&lt;\/b>/g, '')
+                                        .replace(/&lt;strong>/g, '')
+                                        .replace(/&lt;\/strong>/g, '')
+                                        .replace(/&amp;amp;/g, '&amp;')
                                         .replace(/^\s+/g, '')
                                         .replace(/\s+$/g, '')
                                         ;
@@ -565,27 +585,27 @@
                         result.push(resultTable);
                     }
                 }
-            } else if (/(<br\/?>|<div>)/igm.test(content)) {
+            } else if (/(&lt;br\/?>|&lt;div>)/igm.test(content)) {
                 var rows;
                 content = content
-                    .replace(/<span[^>]*>/igm, '')
-                    .replace(/<\/span>/igm, '');
-                if (/(<br\/?>)/igm.test(content)) {
-                    rows = content.split(/<br\/?>/);
+                    .replace(/&lt;span[^>]*>/igm, '')
+                    .replace(/&lt;\/span>/igm, '');
+                if (/(&lt;br\/?>)/igm.test(content)) {
+                    rows = content.split(/&lt;br\/?>/);
                 } else {
-                    rows = content.replace(/<div>/igm, '').split(/<\/div\/?>/);
+                    rows = content.replace(/&lt;div>/igm, '').split(/&lt;\/div\/?>/);
                 }
                 var rowIndex;
                 var row;
                 var cellIndex;
                 var cells;
                 var cell;
-                for (rowIndex = 0 ; rowIndex < rows.length ; rowIndex ++){
+                for (rowIndex = 0 ; rowIndex &lt; rows.length ; rowIndex ++){
                     row = rows[rowIndex].replace(/[\n\r]/, '');
-                    row = row.replace(/(&nbsp;| )+/g, '\t');
+                    row = row.replace(/(&amp;nbsp;| )+/g, '\t');
                     cells = row.split(/[\t]/);
                     resultRow = [];
-                    for (cellIndex = 0; cellIndex < cells.length; cellIndex ++){
+                    for (cellIndex = 0; cellIndex &lt; cells.length; cellIndex ++){
                         cell = cells[cellIndex];
                         if (cell.length > 0) {
                             resultRow.push(cell);
@@ -630,17 +650,17 @@
      * Plugin function. Should be used on elements, that can be clicked
      * (buttons, links, etc)
      * @example
-     * <a id="enter-table-button" class="btn btn-xs" href="#">
+     * &lt;a id="enter-table-button" class="btn btn-xs" href="#">
      *     Paste your data here
-     * </a>
-     * <script>
+     * &lt;/a>
+     * &lt;script>
      *     $("#enter-table-button").parseTable({
      *         // here go configuration options
      *         success: function (data) {
      *             $.ajax(...) // send data to server
      *         }
      *     });
-     * </script>
+     * &lt;/script>
      * @function external:"jQuery.fn".parseTable
      * @global
      * @name "jQuery.fn.parseTable"
@@ -657,3 +677,26 @@
     };
 
 })( jQuery, window, document );
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Externals</h3><ul><li><a href="external%2520jQuery.external__jQuery.fn_.html">jQuery.fn</a></li><li><a href="external-jQuery.html">jQuery</a></li></ul><h3>Classes</h3><ul><li><a href="ParseTablePlugin-Plugin.html">Plugin</a></li><li><a href="ParseTablePlugin-Settings.html">Settings</a></li></ul><h3>Namespaces</h3><ul><li><a href="ParseTablePlugin.html">ParseTablePlugin</a></li></ul><h3>Global</h3><ul><li><a href="global.html#%2522jQuery.fn.parseTable%2522">"jQuery.fn.parseTable"</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0</a> on Wed May 20 2015 17:24:04 GMT+0300 (EAT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
